@@ -10,11 +10,6 @@ from app.core.config import settings
 
 
 class JsonFormatter(logging.Formatter):
-    """
-    Minimal structured (JSON) logging.
-
-    Works well in Docker, CI, and most log collectors.
-    """
 
     def format(self, record: logging.LogRecord) -> str:
         base: dict[str, Any] = {
@@ -24,7 +19,6 @@ class JsonFormatter(logging.Formatter):
             "msg": record.getMessage(),
         }
 
-        # Include common "extra" fields if present.
         for k in ("experiment_id", "trial_id", "strategy", "reward"):
             if hasattr(record, k):
                 base[k] = getattr(record, k)
